@@ -15,19 +15,19 @@ pipeline {
                 // Test automation tools to be used: JUnit for unit testing and Mockito for integration testing
                
             }
-            post {
-                always {
-                      script {
-                        echo "Current build result: ${currentBuild.result}"
-                    }
-                    emailext body: "<p>Unit and Integration Tests completed. Current status: ${currentBuild.result ?: 'IN PROGRESS'}.</p>",
-                        subject: "Unit and Integration Tests - Build #${BUILD_NUMBER} - ${currentBuild.result ?: 'IN PROGRESS'}",
-                        to: "adrian1997.thilina@gmail.com",
-                        attachLog: true,
-                        mimeType: 'text/html'
-                    echo 'Sending notification email after Unit and Integration Tests.'
-                }
-            }
+           post {
+    always {
+        emailext(
+            to: 'adrian1997.thilina@gmail.com',
+            subject: "Security Scan - Build #${BUILD_NUMBER} - ${currentBuild.result ?: 'IN PROGRESS'}",
+            body: "<p>Security Scan completed. Current status: ${currentBuild.result ?: 'IN PROGRESS'}.</p>",
+            attachLog: true,
+            mimeType: 'text/html',
+            maxAttachmentSize: 10240 // 10KB limit
+        )
+        echo 'Sending notification email after Security Scan.'
+    }
+}
         }
 
         stage('Code Analysis') {
@@ -41,19 +41,19 @@ pipeline {
                 echo 'Performing security scan with OWASP ZAP to identify vulnerabilities.'
                 // Tool to be used: OWASP ZAP
             }
-            post {
-                always {
-                   script {
-                        echo "Current build result: ${currentBuild.result}"
-                    }
-                    emailext body: "<p>Security Scan completed. Current status: ${currentBuild.result ?: 'IN PROGRESS'}.</p>",
-                        subject: "Security Scan - Build #${BUILD_NUMBER} - ${currentBuild.result ?: 'IN PROGRESS'}",
-                        to: "adrian1997.thilina@gmail.com",
-                        attachLog: true,
-                        mimeType: 'text/html'
-                    echo 'Sending notification email after Security Scan.'
-                }
-            }
+           post {
+    always {
+        emailext(
+            to: 'adrian1997.thilina@gmail.com',
+            subject: "Security Scan - Build #${BUILD_NUMBER} - ${currentBuild.result ?: 'IN PROGRESS'}",
+            body: "<p>Security Scan completed. Current status: ${currentBuild.result ?: 'IN PROGRESS'}.</p>",
+            attachLog: true,
+            mimeType: 'text/html',
+            maxAttachmentSize: 10240 // 10KB limit
+        )
+        echo 'Sending notification email after Security Scan.'
+    }
+}
         }
         stage('Deploy to Staging') {
             steps {
