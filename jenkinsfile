@@ -20,8 +20,8 @@ pipeline {
                       script {
                         echo "Current build result: ${currentBuild.result}"
                     }
-                    emailext body: "<p>Unit and Integration Tests completed. Current status: ${currentBuild.result ?: 'IN PROGRESS'}.</p>",
-                        subject: "Unit and Integration Tests - Build #${BUILD_NUMBER} - ${currentBuild.result ?: 'IN PROGRESS'}",
+                    emailext body: "<p>Unit and Integration Tests completed. Current status: 'IN PROGRESS'}.</p>",
+                        subject: "Unit and Integration Tests - Build : 'IN PROGRESS'}",
                         to: "adrian1997.thilina@gmail.com",
                         attachLog: true,
                         mimeType: 'text/html'
@@ -46,8 +46,8 @@ pipeline {
                    script {
                         echo "Current build result: ${currentBuild.result}"
                     }
-                    emailext body: "<p>Security Scan completed. Current status: ${currentBuild.result ?: 'IN PROGRESS'}.</p>",
-                        subject: "Security Scan - Build #${BUILD_NUMBER} - ${currentBuild.result ?: 'IN PROGRESS'}",
+                    emailext body: "<p>Security Scan completed. Current status:'IN PROGRESS'}.</p>",
+                        subject: "Security Scan - Build  'IN PROGRESS'}",
                         to: "adrian1997.thilina@gmail.com",
                         attachLog: true,
                         mimeType: 'text/html'
@@ -83,5 +83,4 @@ pipeline {
 }
 
 //Test 16
-
 
