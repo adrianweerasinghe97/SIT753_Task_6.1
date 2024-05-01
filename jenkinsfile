@@ -1,11 +1,10 @@
 pipeline {
-    agent any
+     agent any
 
-    environment {
-        // Definining environment variable
-        RECIPIENT_EMAIL = 'adrian1997.thilina@gmail.com'
-    }
-
+    //  environment {
+    //     // Definining environment variable
+    //     RECIPIENT_EMAIL = 'adrian1997.thilina@gmail.com'
+    // }
     stages {
         stage('Build') {
             steps {
@@ -22,16 +21,14 @@ pipeline {
             }
             post {
                 always {
-                    emailext (
-                        to: "${RECIPIENT_EMAIL}",
+                    // emailext (
+                        // to: "${RECIPIENT_EMAIL}",
+                        mail to: "adrian1997.thilina@gmail.com",
                         subject: "Unit and Integration Tests - Build #${BUILD_NUMBER} - ${currentBuild.result ?: 'IN PROGRESS'}",
                         body: "<p>Unit and Integration Tests completed. Current status: ${currentBuild.result ?: 'IN PROGRESS'}.</p>",
-                        attachLog: true
-                    )
-                     echo 'Email sent successfully.'
-        } catch (Exception e) {
-            echo "Failed to send email: ${e.getMessage()}"
-        }
+                        // attachLog: true
+                    // )
+                    echo 'Sending notification email after Unit and Integration Tests.'
                 }
             }
         }
@@ -48,16 +45,14 @@ pipeline {
             }
             post {
                 always {
-                    emailext (
-                        to: "${RECIPIENT_EMAIL}",
+                    // emailext (
+                        // to: "${RECIPIENT_EMAIL}",
+                        mail to: "adrian1997.thilina@gmail.com",
                         subject: "Security Scan - Build #${BUILD_NUMBER} - ${currentBuild.result ?: 'IN PROGRESS'}",
                         body: "<p>Security Scan completed. Current status: ${currentBuild.result ?: 'IN PROGRESS'}.</p>",
-                        attachLog: true
-                    )
-                     echo 'Email sent successfully.'
-        } catch (Exception e) {
-            echo "Failed to send email: ${e.getMessage()}"
-        }
+                        // attachLog: true
+                    // )
+                    echo 'Sending notification email after Security Scan.'
                 }
             }
         }
