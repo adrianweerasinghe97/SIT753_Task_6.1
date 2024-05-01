@@ -22,13 +22,13 @@ pipeline {
             }
             post {
                 always {
-                    archiveArtifacts artifacts: 'target/surefire-reports/*.xml', fingerprint: true
                     emailext (
                         to: "${RECIPIENT_EMAIL}",
                         subject: "Unit and Integration Tests - Build #${BUILD_NUMBER} - ${BUILD_STATUS}",
                         body: """<p>Unit and Integration Tests completed. Build status: ${BUILD_STATUS}.</p>
-                                 <p>See attached logs for details.</p>""",
-                        attachmentsPattern: "target/surefire-reports/*.xml"
+                                 <p>Attached below is the console output for details:</p>
+                                 <pre>${BUILD_LOG, maxLines=1000}</pre>""", // Attaching the last 1000 lines of console output
+                        mimeType: 'text/html'
                     )
                     echo 'Sending notification email after Unit and Integration Tests.'
                 }
@@ -47,13 +47,13 @@ pipeline {
             }
             post {
                 always {
-                    archiveArtifacts artifacts: 'target/zap-reports/*.html', fingerprint: true
                     emailext (
                         to: "${RECIPIENT_EMAIL}",
                         subject: "Security Scan - Build #${BUILD_NUMBER} - ${BUILD_STATUS}",
                         body: """<p>Security Scan completed. Build status: ${BUILD_STATUS}.</p>
-                                 <p>See attached logs for details.</p>""",
-                        attachmentsPattern: "target/zap-reports/*.html"
+                                 <p>Attached below is the console output for details:</p>
+                                 <pre>${BUILD_LOG, maxLines=1000}</pre>""", // Attaching the last 1000 lines of console output
+                        mimeType: 'text/html'
                     )
                     echo 'Sending notification email after Security Scan.'
                 }
