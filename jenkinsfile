@@ -63,7 +63,7 @@ pipeline {
         }
         stage('Integration Tests on Staging') {
             steps {
-                echo 'Running integration tests on staging environment.'
+                echo 'Running integration tests on staging environment  Test 30.'
                 // Tool to be used: Postman can be configured to run integration tests to check the interactions between various parts of the application.
             }
         }
