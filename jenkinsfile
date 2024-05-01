@@ -12,30 +12,22 @@ pipeline {
         stage('Unit and Integration Tests') {
             steps {
                 echo 'Running unit and integration tests using JUnit and Mockito to verify functionality.'
-                                script {
-            // Run commands and redirect important output to a custom log file
-            sh 'some-command > custom_log.log'
-        }
-            }
-        }
-        stage('Unit and Integration Tests') {
-            steps {
-                echo 'Running unit and integration tests using JUnit and Mockito to verify functionality.'
                 // Test automation tools to be used: JUnit for unit testing and Mockito for integration testing
                
             }
             post {
     always {
-        emailext(
-            to: 'adrian1997.thilina@gmail.com',
-            subject: "Custom Log - Build #${BUILD_NUMBER} - ${currentBuild.result ?: 'IN PROGRESS'}",
-            body: "<p>See attached custom log for details.</p>",
-            attachmentsPattern: 'custom_log.log',
-            mimeType: 'text/html'
-        )
+        script {
+            def logExcerpt = sh(script: 'tail -n 100 build.log', returnStdout: true).trim()
+            emailext(
+                to: 'adrian1997.thilina@gmail.com',
+                subject: "Build #${BUILD_NUMBER} - ${currentBuild.result ?: 'IN PROGRESS'}",
+                body: "<p>Last 100 lines of the build log:</p><pre>${logExcerpt}</pre>",
+                mimeType: 'text/html'
+            )
+        }
     }
 }
-        }
 
         stage('Code Analysis') {
             steps {
@@ -46,30 +38,21 @@ pipeline {
         stage('Security Scan') {
             steps {
                 echo 'Performing security scan with OWASP ZAP to identify vulnerabilities.'
-                                script {
-            // Run commands and redirect important output to a custom log file
-            sh 'some-command > custom_log.log'
-        }
-            }
-        }
-        stage('Unit and Integration Tests') {
-            steps {
-                echo 'Running unit and integration tests using JUnit and Mockito to verify functionality.'
-                // Test automation tools to be used: JUnit for unit testing and Mockito for integration testing
-               
+                // Tool to be used: OWASP ZAP
             }
             post {
     always {
-        emailext(
-            to: 'adrian1997.thilina@gmail.com',
-            subject: "Custom Log - Build #${BUILD_NUMBER} - ${currentBuild.result ?: 'IN PROGRESS'}",
-            body: "<p>See attached custom log for details.</p>",
-            attachmentsPattern: 'custom_log.log',
-            mimeType: 'text/html'
-        )
+        script {
+            def logExcerpt = sh(script: 'tail -n 100 build.log', returnStdout: true).trim()
+            emailext(
+                to: 'adrian1997.thilina@gmail.com',
+                subject: "Build #${BUILD_NUMBER} - ${currentBuild.result ?: 'IN PROGRESS'}",
+                body: "<p>Last 100 lines of the build log:</p><pre>${logExcerpt}</pre>",
+                mimeType: 'text/html'
+            )
+        }
     }
 }
-        }
         stage('Deploy to Staging') {
             steps {
                 echo 'Deploying to staging server.'
@@ -97,4 +80,5 @@ pipeline {
     }
 }
 
+//Test 16
 
