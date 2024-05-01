@@ -16,18 +16,19 @@ pipeline {
                
             }
             post {
-    always {
-        script {
-            def logExcerpt = sh(script: 'tail -n 100 build.log', returnStdout: true).trim()
-            emailext(
-                to: 'adrian1997.thilina@gmail.com',
-                subject: "Build #${BUILD_NUMBER} - ${currentBuild.result ?: 'IN PROGRESS'}",
-                body: "<p>Last 100 lines of the build log:</p><pre>${logExcerpt}</pre>",
-                mimeType: 'text/html'
-            )
+                always {
+                      script {
+                        echo "Current build result: ${currentBuild.result}"
+                    }
+                    emailext body: "<p>Unit and Integration Tests completed. Current status: ${currentBuild.result ?: 'IN PROGRESS'}.</p>",
+                        subject: "Unit and Integration Tests - Build #${BUILD_NUMBER} - ${currentBuild.result ?: 'IN PROGRESS'}",
+                        to: "adrian1997.thilina@gmail.com",
+                        attachLog: true,
+                        mimeType: 'text/html'
+                    echo 'Sending notification email after Unit and Integration Tests.'
+                }
+            }
         }
-    }
-}
 
         stage('Code Analysis') {
             steps {
@@ -41,18 +42,19 @@ pipeline {
                 // Tool to be used: OWASP ZAP
             }
             post {
-    always {
-        script {
-            def logExcerpt = sh(script: 'tail -n 100 build.log', returnStdout: true).trim()
-            emailext(
-                to: 'adrian1997.thilina@gmail.com',
-                subject: "Build #${BUILD_NUMBER} - ${currentBuild.result ?: 'IN PROGRESS'}",
-                body: "<p>Last 100 lines of the build log:</p><pre>${logExcerpt}</pre>",
-                mimeType: 'text/html'
-            )
+                always {
+                   script {
+                        echo "Current build result: ${currentBuild.result}"
+                    }
+                    emailext body: "<p>Security Scan completed. Current status: ${currentBuild.result ?: 'IN PROGRESS'}.</p>",
+                        subject: "Security Scan - Build #${BUILD_NUMBER} - ${currentBuild.result ?: 'IN PROGRESS'}",
+                        to: "adrian1997.thilina@gmail.com",
+                        attachLog: true,
+                        mimeType: 'text/html'
+                    echo 'Sending notification email after Security Scan.'
+                }
+            }
         }
-    }
-}
         stage('Deploy to Staging') {
             steps {
                 echo 'Deploying to staging server.'
@@ -79,6 +81,6 @@ pipeline {
         }
     }
 }
-    }}
 
 //Test 16
+
