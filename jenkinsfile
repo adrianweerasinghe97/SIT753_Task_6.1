@@ -28,7 +28,10 @@ pipeline {
                         body: "<p>Unit and Integration Tests completed. Current status: ${currentBuild.result ?: 'IN PROGRESS'}.</p>",
                         attachLog: true
                     )
-                    echo 'Sending notification email after Unit and Integration Tests.'
+                     echo 'Email sent successfully.'
+        } catch (Exception e) {
+            echo "Failed to send email: ${e.getMessage()}"
+        }
                 }
             }
         }
@@ -51,7 +54,10 @@ pipeline {
                         body: "<p>Security Scan completed. Current status: ${currentBuild.result ?: 'IN PROGRESS'}.</p>",
                         attachLog: true
                     )
-                    echo 'Sending notification email after Security Scan.'
+                     echo 'Email sent successfully.'
+        } catch (Exception e) {
+            echo "Failed to send email: ${e.getMessage()}"
+        }
                 }
             }
         }
