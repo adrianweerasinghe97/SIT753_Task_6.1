@@ -17,6 +17,9 @@ pipeline {
             }
             post {
                 always {
+                      script {
+                        echo "Current build result: ${currentBuild.result}"
+                    }
                     emailext body: "<p>Unit and Integration Tests completed. Current status: ${currentBuild.result ?: 'IN PROGRESS'}.</p>",
                         subject: "Unit and Integration Tests - Build #${BUILD_NUMBER} - ${currentBuild.result ?: 'IN PROGRESS'}",
                         to: "adrian97.thilina@gmail.com",
@@ -40,6 +43,9 @@ pipeline {
             }
             post {
                 always {
+                   script {
+                        echo "Current build result: ${currentBuild.result}"
+                    }
                     emailext body: "<p>Security Scan completed. Current status: ${currentBuild.result ?: 'IN PROGRESS'}.</p>",
                         subject: "Security Scan - Build #${BUILD_NUMBER} - ${currentBuild.result ?: 'IN PROGRESS'}",
                         to: "adrian97.thilina@gmail.com",
