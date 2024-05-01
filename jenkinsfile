@@ -12,20 +12,27 @@ pipeline {
         stage('Unit and Integration Tests') {
             steps {
                 echo 'Running unit and integration tests using JUnit and Mockito to verify functionality.'
+                                script {
+            // Run commands and redirect important output to a custom log file
+            sh 'some-command > custom_log.log'
+        }
+            }
+        }
+        stage('Unit and Integration Tests') {
+            steps {
+                echo 'Running unit and integration tests using JUnit and Mockito to verify functionality.'
                 // Test automation tools to be used: JUnit for unit testing and Mockito for integration testing
                
             }
-           post {
+            post {
     always {
         emailext(
             to: 'adrian1997.thilina@gmail.com',
-            subject: "Security Scan - Build #${BUILD_NUMBER} - ${currentBuild.result ?: 'IN PROGRESS'}",
-            body: "<p>Security Scan completed. Current status: ${currentBuild.result ?: 'IN PROGRESS'}.</p>",
-            attachLog: true,
-            mimeType: 'text/html',
-            maxAttachmentSize: 10240 // 10KB limit
+            subject: "Custom Log - Build #${BUILD_NUMBER} - ${currentBuild.result ?: 'IN PROGRESS'}",
+            body: "<p>See attached custom log for details.</p>",
+            attachmentsPattern: 'custom_log.log',
+            mimeType: 'text/html'
         )
-        echo 'Sending notification email after Security Scan.'
     }
 }
         }
@@ -39,19 +46,27 @@ pipeline {
         stage('Security Scan') {
             steps {
                 echo 'Performing security scan with OWASP ZAP to identify vulnerabilities.'
-                // Tool to be used: OWASP ZAP
+                                script {
+            // Run commands and redirect important output to a custom log file
+            sh 'some-command > custom_log.log'
+        }
             }
-           post {
+        }
+        stage('Unit and Integration Tests') {
+            steps {
+                echo 'Running unit and integration tests using JUnit and Mockito to verify functionality.'
+                // Test automation tools to be used: JUnit for unit testing and Mockito for integration testing
+               
+            }
+            post {
     always {
         emailext(
             to: 'adrian1997.thilina@gmail.com',
-            subject: "Security Scan - Build #${BUILD_NUMBER} - ${currentBuild.result ?: 'IN PROGRESS'}",
-            body: "<p>Security Scan completed. Current status: ${currentBuild.result ?: 'IN PROGRESS'}.</p>",
-            attachLog: true,
-            mimeType: 'text/html',
-            maxAttachmentSize: 10240 // 10KB limit
+            subject: "Custom Log - Build #${BUILD_NUMBER} - ${currentBuild.result ?: 'IN PROGRESS'}",
+            body: "<p>See attached custom log for details.</p>",
+            attachmentsPattern: 'custom_log.log',
+            mimeType: 'text/html'
         )
-        echo 'Sending notification email after Security Scan.'
     }
 }
         }
