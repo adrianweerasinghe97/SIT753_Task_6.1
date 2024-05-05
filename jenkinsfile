@@ -1,55 +1,48 @@
 pipeline {
-     agent any
+    agent any
 
     stages {
         stage('Build') {
             steps {
                 echo 'Building the project using Maven.'
-                // build automation tool: Maven, Maven would compile and package the code
-                
             }
         }
         stage('Unit and Integration Tests') {
             steps {
                 echo 'Running unit and integration tests using JUnit and Mockito to verify functionality.'
-                // Test automation tools to be used: JUnit for unit testing and Mockito for integration testing
-               
             }
             post {
                 always {
-                      script {
+                    script {
                         echo "Current build result: ${currentBuild.result}"
                     }
                     emailext body: "<p>Unit and Integration Tests completed. Current status: ${currentBuild.result ?: 'IN PROGRESS'}.</p>",
                         subject: "Unit and Integration Tests - Build #${BUILD_NUMBER} - ${currentBuild.result ?: 'IN PROGRESS'}",
                         to: "adrian1997.thilina@gmail.com",
-                        attachLog: false,
+                        attachLog: true, // Set this to true to attach the build log
                         mimeType: 'text/html'
                     echo 'Sending notification email after Unit and Integration Tests.'
                 }
             }
         }
-
         stage('Code Analysis') {
             steps {
                 echo 'Analyzing code with SonarQube.'
-                // Tool to be used: SonarQube to perform code analysis to ensure code quality and standards.
             }
         }
         stage('Security Scan') {
             steps {
                 echo 'Performing security scan with OWASP ZAP to identify vulnerabilities.'
-                // Tool to be used: OWASP ZAP
             }
             post {
                 always {
-                   script {
+                    script {
                         echo "Current build result: ${currentBuild.result}"
                     }
                     emailext body: "<p>Security Scan completed. Current status: ${currentBuild.result ?: 'IN PROGRESS'}.</p>",
                         subject: "Security Scan - Build #${BUILD_NUMBER} - ${currentBuild.result ?: 'IN PROGRESS'}",
                         to: "adrian1997.thilina@gmail.com",
-                        attachLog: false,
+                        attachLog: true, // Set this to true to attach the build log
                         mimeType: 'text/html'
                     echo 'Sending notification email after Security Scan.'
                 }
@@ -58,19 +51,16 @@ pipeline {
         stage('Deploy to Staging') {
             steps {
                 echo 'Deploying to staging server.'
-                // Tool to be used: Docker + Kubernetes can be used to package the application and its dependencies together. Kubernetes can then be used to manage these containers to deploy applications reliably to different environments..
             }
         }
         stage('Integration Tests on Staging') {
             steps {
-                echo 'Running integration tests on staging environment  Test 30.'
-                // Tool to be used: Postman can be configured to run integration tests to check the interactions between various parts of the application.
+                echo 'Running integration tests on staging environment Test 30.'
             }
         }
         stage('Deploy to Production') {
             steps {
                 echo 'Deploying to production server.'
-                // Tool to be used: Google Cloud Platform (GCP)
             }
         }
     }
@@ -81,6 +71,3 @@ pipeline {
         }
     }
 }
-
-//Test 16
-
